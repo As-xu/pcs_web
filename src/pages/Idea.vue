@@ -1,12 +1,12 @@
 <template>
   <h1>
-    个人中心
+    想法
   </h1>
 </template>
 
 <script>
 export default {
-  name: "Center"
+  name: "Idea"
 }
 </script>
 

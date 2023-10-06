@@ -1,12 +1,12 @@
 <template>
   <h1>
-    个人中心
+    导航
   </h1>
 </template>
 
 <script>
 export default {
-  name: "Center"
+  name: "WebNavigation"
 }
 </script>
 

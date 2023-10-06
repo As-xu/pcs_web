@@ -1,12 +1,12 @@
 <template>
   <h1>
-    个人中心
+    音乐
   </h1>
 </template>
 
 <script>
 export default {
-  name: "Center"
+  name: "Music"
 }
 </script>
 

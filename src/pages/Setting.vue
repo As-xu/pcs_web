@@ -1,12 +1,12 @@
 <template>
   <h1>
-    个人中心
+    设置
   </h1>
 </template>
 
 <script>
 export default {
-  name: "Center"
+  name: "Setting"
 }
 </script>
 

@@ -1,12 +1,12 @@
 <template>
   <h1>
-    个人中心
+    电影
   </h1>
 </template>
 
 <script>
 export default {
-  name: "Center"
+  name: "Movie"
 }
 </script>
 

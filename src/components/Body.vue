@@ -1,46 +1,40 @@
 <template>
-  <section class="mt-4 mb-5">
-  <div class="container mb-4">
-    <div class="row">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white pl-2 pr-2">
-        <div class="collapse navbar-collapse" id="navbarsExplore">
-          <ul class="navbar-nav">
-            <router-view></router-view>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/center" >个人中心</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/center" >电影</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/center" >音乐</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/center" >漫画</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/center" >想法</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/center" >网站导航</router-link>
-            </li>
+  <el-aside>
+    <el-menu
+        :router="true"
+    >
+      <el-menu-item index="/">
+        <span>个人中心</span>
+      </el-menu-item>
+      <el-menu-item index="/music">
+          <span>音乐</span>
+      </el-menu-item>
+      <el-menu-item index="/comic-book">
+          <span>漫画</span>
+      </el-menu-item>
+      <el-menu-item index="/idea">
+          <span>想法</span>
+      </el-menu-item>
+      <el-menu-item index="/movie">
+        <span>电影</span>
+      </el-menu-item>
+      <el-menu-item index="/web-navigation">
+          <span>网站导航</span>
+      </el-menu-item >
+      <el-menu-item index="/setting">
+          <span>设置</span>
+      </el-menu-item>
+    </el-menu>
+  </el-aside>
 
-            <li class="nav-item">
-              <router-link class="nav-link" to="/center" >设置</router-link>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-  </div>
+    <el-container class="content">
 
-    <div class="container-fluid">
-      <div class="row">
-        <router-view></router-view>
-      </div>
-    </div>
+      <el-main>
+      <router-view></router-view>
+      </el-main>
 
-  </section>
+    </el-container>
+
 </template>
 
 <script>
