@@ -24,6 +24,9 @@
       <el-menu-item index="/setting">
           <span>设置</span>
       </el-menu-item>
+      <el-menu-item index="/login">
+        <span>登录</span>
+      </el-menu-item>
     </el-menu>
   </el-aside>
 

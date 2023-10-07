@@ -1,70 +1,66 @@
 <template>
-<!--  <div class="login-body">-->
-<!--    <div class="login-container">-->
-<!--      <div class="head">-->
-<!--        <img class="logo" src="https://s.yezgea02.com/1582958061265/mlogo.png" />-->
-<!--        <div class="name">-->
-<!--          <div class="title">新蜂商城</div>-->
-<!--          <div class="tips">Vue3.0 后台管理系统</div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <el-form label-position="top" :rules="state.rules" :model="state.ruleForm" ref="loginForm" class="login-form">-->
-<!--        <el-form-item label="账号" prop="username">-->
-<!--          <el-input type="text" v-model.trim="state.ruleForm.username" autocomplete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="密码" prop="password">-->
-<!--          <el-input type="password" v-model.trim="state.ruleForm.password" autocomplete="off"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item>-->
-<!--          <div style="color: #333">登录表示您已同意<a>《服务条款》</a></div>-->
-<!--          <el-button style="width: 100%" type="primary" @click="submitForm">立即登录</el-button>-->
-<!--          <el-checkbox v-model="state.checked" @change="!state.checked">下次自动登录</el-checkbox>-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div class="login-body">
+    <div class="login-container">
+      <div class="head">
+        <div class="name">
+          <div class="title">PCS</div>
+        </div>
+      </div>
+      <el-form label-position="top" :rules="state.rules" :model="state.ruleForm" ref="loginForm" class="login-form">
+        <el-form-item label="账号" prop="username">
+          <el-input type="text" v-model.trim="state.ruleForm.username" autocomplete="off"> </el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model.trim="state.ruleForm.password" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <div style="color: #333">登录表示您已同意<a>《服务条款》</a></div>
+          <el-button style="width: 100%" type="primary" @click="submitForm">立即登录</el-button>
+          <el-checkbox v-model="state.checked" @change="!state.checked">下次自动登录</el-checkbox>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
 </template>
 
 <script setup>
-// import axios from '@/utils/axios'
-// import md5 from 'js-md5'
-// import { reactive, ref } from 'vue'
-// import { localSet } from '@/utils'
-// const loginForm = ref(null)
-// const state = reactive({
-//   ruleForm: {
-//     username: '',
-//     password: ''
-//   },
-//   checked: true,
-//   rules: {
-//     username: [
-//       { required: 'true', message: '账户不能为空', trigger: 'blur' }
-//     ],
-//     password: [
-//       { required: 'true', message: '密码不能为空', trigger: 'blur' }
-//     ]
-//   }
-// })
-// const submitForm = async () => {
-//   loginForm.value.validate((valid) => {
-//     if (valid) {
-//       axios.post('/adminUser/login', {
-//         userName: state.ruleForm.username || '',
-//         passwordMd5: md5(state.ruleForm.password)
-//       }).then(res => {
-//         localSet('token', res)
-//         window.location.href = '/'
-//       })
-//     } else {
-//       console.log('error submit!!')
-//       return false;
-//     }
-//   })
-// }
-// const resetForm = () => {
-//   loginForm.value.resetFields();
-// }
+import service from '@/utils/requset'
+import { reactive, ref } from 'vue'
+const loginForm = ref(null)
+const state = reactive({
+  ruleForm: {
+    username: '',
+    password: ''
+  },
+  checked: true,
+  rules: {
+    username: [
+      { required: 'true', message: '账户不能为空', trigger: 'blur' }
+    ],
+    password: [
+      { required: 'true', message: '密码不能为空', trigger: 'blur' }
+    ]
+  }
+})
+const submitForm = async () => {
+  loginForm.value.validate((valid) => {
+    if (valid) {
+      service.post('/user/login', {
+        userName: state.ruleForm.username || '',
+        passwordMd5: md5(state.ruleForm.password)
+      }).then(res => {
+        // localSet('token', res)
+        window.location.href = '/'
+      })
+    } else {
+      console.log('error submit!!')
+      return false;
+    }
+  })
+}
+const resetForm = () => {
+  loginForm.value.resetFields();
+}
 </script>
 
 <style scoped>
@@ -98,7 +94,7 @@
   color: #1BAEAE;
   font-weight: bold;
 }
-.head .tips {
+.head {
   font-size: 12px;
   color: #999;
 }

@@ -17,7 +17,7 @@ const routes = [
         component: () => import("@/pages/Login.vue"),
         alias: '/login',
         meta: {
-            title: '个人中心'
+            title: '登录'
         }
     },
     {
