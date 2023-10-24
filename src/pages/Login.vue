@@ -32,6 +32,18 @@
           </el-button>
           <el-checkbox v-model="state.checked" style="margin:0px 0px 25px 0px;">记住账户</el-checkbox>
         </el-form-item>
+
+
+        <el-form-item>
+          <el-button
+              style="width:100%;"
+              type="primary"
+              @click="logout"
+          >
+            <span >注销登录</span>
+          </el-button>
+        </el-form-item>
+
       </el-form>
     </div>
   </div>
@@ -42,6 +54,7 @@ import { reactive, ref } from 'vue'
 import Cookies from "js-cookie";
 import useUserStore from '@/store/modules/user'
 import {useRoute, useRouter} from "vue-router";
+import { ElMessageBox } from 'element-plus'
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore()
@@ -80,25 +93,29 @@ const submitForm = async () => {
       }
       userStore.login(state.ruleForm.username, state.ruleForm.password).then(() => {
         const query = route.query;
-        console.log(loginForm)
+        console.log(query)
         console.log("---loginForm---")
-        // const otherQueryParams = Object.keys(query).reduce((acc, cur) => {
-        //   if (cur !== "redirect") {
-        //     acc[cur] = query[cur];
-        //   }
-        //   return acc;
-        // }, {});
-        // router.push({ path: redirect.value || "/", query: otherQueryParams });
+        router.push({ path: "/"});
       }).catch(() => {
         loading.value = false;
-        // 重新获取验证码
-        // if (captchaEnabled.value) {
-        //   getCode();
-        // }
+
       })
     }
   });
 }
+
+function logout() {
+  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    userStore.logOut().then(() => {
+      location.href = '/login';
+    })
+  }).catch(() => { });
+}
+
 const resetForm = () => {
   loginForm.value.resetFields();
 }

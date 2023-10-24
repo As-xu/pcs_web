@@ -1,12 +1,14 @@
 import { createRouter,createWebHashHistory } from 'vue-router'
+import Layout from '@/layout/index.vue'
 
+export const constantRoutes = [];
 
-const routes = [
+export const routes = [
     {
         path: '/',
-        name: 'center',
-        component: () => import("@/pages/Center.vue"),
-        alias: '/center',
+        name: 'index',
+        component: Layout,
+        alias: '/index',
         meta: {
             title: '个人中心'
         }

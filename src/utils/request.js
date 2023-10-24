@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElNotification , ElMessageBox, ElMessage, ElLoading } from 'element-plus'
-import { getToken, getCsrfTokenKey } from '@/utils/auth'
-// import errorCode from '@/utils/errorCode'
+import { getToken, getCsrfTokenKey, removeToken } from '@/utils/auth'
+import errorCode from '@/utils/errorCode'
 // import { tansParams, blobValidate } from '@/utils/ruoyi'
 // import cache from '@/plugins/cache'
 // import { saveAs } from 'file-saver'
@@ -15,22 +15,26 @@ axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
     // axios中请求配置有baseURL选项，表示请求URL公共部分
+    xsrfCookieName: 'csrf_access_token',
+    xsrfHeaderName: 'X-CSRF-TOKEN',
     baseURL: import.meta.env.VITE_BASE_API,
     // 超时
-    timeout: 10000
+    timeout: 100000
 })
 
 // request拦截器
 service.interceptors.request.use(config => {
     console.log("请求内容")
-    console.log(config)
     // 是否需要设置 token
     const noToken = (config.headers || {}).noToken === true
     // // 是否需要防止数据重复提交
     // // const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
     // if (getToken() && !isToken) {
     //     config.headers['Cookies'] = getCsrfTokenKey()
+    // if (!noToken){
     //     config.headers['X-CSRF-TOKEN'] = getCsrfTokenKey()
+    // }
+
     //     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     // }
 
@@ -79,6 +83,8 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(res => {
         // 未设置状态码则默认成功状态
+        console.log("返回结果");
+        console.log(res.request.cook);
         const code = res.data.code || 200;
         // 获取错误信息
         const msg =  res.data.msg || errorCode[code];
@@ -89,13 +95,13 @@ service.interceptors.response.use(res => {
         const codeIndex = parseInt(code / 100);
         if (codeIndex === 4) {
             ElMessage({ message: msg, type: 'error' })
-            return Promise.reject(new Error(msg))
+            return Promise.reject('error')
         } else if (codeIndex === 3) {
             ElMessage({ message: msg, type: 'warning' })
-            return Promise.reject(new Error(msg))
+            return Promise.reject('error')
         } else if (codeIndex !== 2) {
             ElNotification.error({ title: msg })
-            return Promise.reject('error')
+            return Promise.reject()
         } else {
             return  Promise.resolve(res.data)
         }

@@ -15,14 +15,16 @@ const useUserStore = defineStore(
         actions: {
             // 登录
             login(username, password) {
+                removeToken();
                 return new Promise((resolve, reject) => {
                     login(username, password).then(res => {
                         console.log(res)
                         console.log("返回res")
-                        // setToken(res.token)
-                        this.token = res.token
+                        setToken(res.token)
                         resolve()
                     }).catch(error => {
+                        console.log("返回error res")
+                        removeToken();
                         reject(error)
                     })
                 })
@@ -50,19 +52,19 @@ const useUserStore = defineStore(
             //     })
             // },
             // // 退出系统
-            // logOut() {
-            //     return new Promise((resolve, reject) => {
-            //         logout(this.token).then(() => {
-            //             this.token = ''
-            //             this.roles = []
-            //             this.permissions = []
-            //             removeToken()
-            //             resolve()
-            //         }).catch(error => {
-            //             reject(error)
-            //         })
-            //     })
-            // }
+            logOut() {
+                return new Promise((resolve, reject) => {
+                    logout().then(() => {
+                        this.token = ''
+                        this.roles = []
+                        this.permissions = []
+                        removeToken()
+                        resolve()
+                    }).catch(error => {
+                        reject(error)
+                    })
+                })
+            }
         }
     })
 

@@ -19,13 +19,6 @@ export function setCsrfTokenKey(token) {
 }
 
 export function removeToken() {
-  console.log("rm1 ")
-  console.log(Cookies)
-  console.Cookies.get(csrfTokenKey)
-  console.Cookies.get(tokenKey)
-  console.log(Cookies)
   Cookies.remove(csrfTokenKey);
   Cookies.remove(tokenKey);
-
-  return console.log("rm2 ");
 }
