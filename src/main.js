@@ -4,7 +4,6 @@ import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import * as ElIcons from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
-import '@/style/theme.scss'
 import App from './App.vue'
 //引入路由器
 import router from './router'

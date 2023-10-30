@@ -12,10 +12,10 @@ export default defineConfig(({ mode, command }) => {
   server: {
     port: 8080,
     open: false, //项目启东时是否打开页面
-    // host: "127.0.0.1",
+    host: "192.168.3.60",
     proxy: {
       "/api": {
-        target: 'http://127.0.0.1:5000', // 从环境变量中获取
+        target: 'http://192.168.3.60:5000', // 从环境变量中获取
         changeOrigin: true /* 允许跨域 */,
         rewrite: (path) => {
           console.log(path)

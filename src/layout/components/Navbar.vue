@@ -1,32 +1,10 @@
 <template>
   <div class="navbar">
+    <div class="logo">
+      PCS
+    </div>
     <hamburger id="hamburger-container"  class="hamburger-container"  />
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
-<!--    <top-nav id="topmenu-container" class="topmenu-container" />-->
-
-    <div class="right-menu">
-<!--      <div class="avatar-container">-->
-<!--        <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">-->
-<!--          <div class="avatar-wrapper">-->
-<!--            <img :src="userStore.avatar" class="user-avatar" />-->
-<!--            <el-icon><caret-bottom /></el-icon>-->
-<!--          </div>-->
-<!--          <template #dropdown>-->
-<!--            <el-dropdown-menu>-->
-<!--              <router-link to="/user/profile">-->
-<!--                <el-dropdown-item>个人中心</el-dropdown-item>-->
-<!--              </router-link>-->
-<!--              <el-dropdown-item command="setLayout" v-if="settingsStore.showSettings">-->
-<!--                <span>布局设置</span>-->
-<!--              </el-dropdown-item>-->
-<!--              <el-dropdown-item divided command="logout">-->
-<!--                <span>退出登录</span>-->
-<!--              </el-dropdown-item>-->
-<!--            </el-dropdown-menu>-->
-<!--          </template>-->
-<!--        </el-dropdown>-->
-<!--      </div>-->
-    </div>
   </div>
 </template>
 
@@ -79,13 +57,27 @@ function setLayout() {
 </script>
 
 <style lang='scss' scoped>
+
 .navbar {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: #0e1117;
+  border-bottom-style: solid;
+  border-width: 2px;
+  border-color: #4b4c4e;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
+  .logo {
+    float: left;
+    color: #fff;
+    position: relative;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    overflow: hidden;
+  }
   .hamburger-container {
     line-height: 46px;
     height: 100%;

@@ -1,32 +1,40 @@
 <template>
-  <div >
-    <el-scrollbar  wrap-class="scrollbar-wrapper">
-      <logo v-if="showLogo"   :collapse="isCollapse"/>
-      <el-menu
-          mode="vertical"
-      >
-        <sidebar-item
-            v-for="(route, index) in sidebarRouters"
-            :key="route.path + index"
-            :item="route"
-            :base-path="route.path"
-        />
-      </el-menu>
-
-    </el-scrollbar>
-  </div>
+  <el-aside width="200px">
+    <el-menu
+        background-color="#0e1117"
+        text-color="#8c95a5"
+        router
+    >
+      <SidebarItem :item="item" v-for="item in sidebarRouters" :key="item.name" />
+    </el-menu>
+  </el-aside>
 </template>
 
 <script setup>
-import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
-import {routes} from '@/router'
+import {constantRoutes} from '@/router'
 
 const showLogo = true
 const isCollapse = true
-const sidebarRouters = routes
+const sidebarRouters = constantRoutes
 console.log(sidebarRouters)
 </script>
-<style>
+<style lang="scss" scoped>
+.el-menu{
+  height: calc(100vh);
+  font-size: 14px;
+}
 
+.el-aside {
+  > :deep(.el-menu) {
+    position: fixed;
+    width: 200px;
+    border-right: 0 none;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+  > :deep(.el-menu--collapse) {
+    width: 64px;
+  }
+}
 </style>

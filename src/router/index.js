@@ -1,27 +1,7 @@
 import { createRouter,createWebHashHistory } from 'vue-router'
 import Layout from '@/layout/index.vue'
 
-export const constantRoutes = [];
-
-export const routes = [
-    {
-        path: '/',
-        name: 'index',
-        component: Layout,
-        alias: '/index',
-        meta: {
-            title: '个人中心'
-        }
-    },
-    {
-        path: '/login',
-        name: 'login',
-        component: () => import("@/pages/Login.vue"),
-        alias: '/login',
-        meta: {
-            title: '登录'
-        }
-    },
+export const constantRoutes = [
     {
         path: '/comic-book',
         name: 'comic-book',
@@ -78,8 +58,35 @@ export const routes = [
     }
 ];
 
+export const routes = [
+    {
+        path: '/index',
+        name: 'index',
+        component: Layout,
+        alias: '/',
+        meta: {
+            title: '个人中心'
+        }
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import("@/pages/Login.vue"),
+        alias: '/login',
+        meta: {
+            title: '登录'
+        }
+    },
+
+];
+
 const router = createRouter({
     history: createWebHashHistory(),
     routes
 });
+
+constantRoutes.forEach(r=>{
+    router.addRoute('index', r)
+})
+
 export default router;
