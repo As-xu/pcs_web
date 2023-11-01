@@ -33,7 +33,7 @@ const tags = []
 .main-content {
   position: relative;
   margin-left: 200px;
-  padding-top: 50px;
+  padding-top: 30px;
 
   -webkit-transition: left 0.3s ease-in-out;
   transition: margin-left 0.3s ease-in-out;
