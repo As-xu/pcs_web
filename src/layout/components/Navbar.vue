@@ -5,6 +5,30 @@
     </div>
     <hamburger id="hamburger-container"  class="hamburger-container"  />
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+
+    <div class="avatar-container">
+      <div class="right-menu">
+        <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
+          <div class="avatar-wrapper">
+            <el-icon color="#fff" :size="25" class="more-filled"><HomeFilled /></el-icon>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <router-link style="text-decoration:none" to="/index">
+                <el-dropdown-item>个人中心</el-dropdown-item>
+              </router-link>
+              <el-dropdown-item>
+                <span>布局设置</span>
+              </el-dropdown-item>
+              <el-dropdown-item divided command="logout">
+                <span>退出登录</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -16,6 +40,11 @@ import Hamburger from '@/components/Hamburger/index.vue'
 import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
+import {useRoute, useRouter} from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
+
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -45,7 +74,7 @@ function logout() {
     type: 'warning'
   }).then(() => {
     userStore.logOut().then(() => {
-      location.href = '/index';
+      router.push({ path: "/login"});
     })
   }).catch(() => { });
 }
@@ -59,7 +88,7 @@ function setLayout() {
 <style lang='scss' scoped>
 
 .navbar {
-  height: 50px;
+  height: 40px;
   overflow: hidden;
   position: relative;
   background: #0e1117;
@@ -73,8 +102,8 @@ function setLayout() {
     color: #fff;
     position: relative;
     width: 200px;
-    height: 50px;
-    line-height: 50px;
+    height: 100%;
+    line-height: 40px;
     text-align: center;
     overflow: hidden;
   }
@@ -87,7 +116,7 @@ function setLayout() {
     -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.025);
+      background: rgba(0, 255, 255, 0.025);
     }
   }
 
@@ -104,7 +133,6 @@ function setLayout() {
     display: inline-block;
     vertical-align: top;
   }
-
   .right-menu {
     float: right;
     height: 100%;
@@ -117,7 +145,7 @@ function setLayout() {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 8px 8px;
       height: 100%;
       font-size: 18px;
       color: #5a5e66;
@@ -158,4 +186,12 @@ function setLayout() {
     }
   }
 }
+
+.more-filled{
+  display: inline-block;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+}
+
 </style>

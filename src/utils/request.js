@@ -83,8 +83,6 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(res => {
         // 未设置状态码则默认成功状态
-        console.log("返回结果");
-        console.log(res.request.cook);
         const code = res.data.code || 200;
         // 获取错误信息
         const msg =  res.data.msg || errorCode[code];
@@ -103,7 +101,8 @@ service.interceptors.response.use(res => {
             ElNotification.error({ title: msg })
             return Promise.reject()
         } else {
-            return  Promise.resolve(res.data)
+            console.log(res.data);
+            return Promise.resolve(res.data)
         }
     },
     error => {

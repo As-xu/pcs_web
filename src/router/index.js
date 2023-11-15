@@ -23,7 +23,7 @@ export const constantRoutes = [
     {
         path: '/movie',
         name: 'movie',
-        component: () => import("@/pages/Movie.vue"),
+        component: () => import("@/pages/Video.vue"),
         alias: '/movie',
         meta: {
             title: '电影'

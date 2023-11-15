@@ -1,19 +1,10 @@
 <template>
 <div class="app-container">
   <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-    <el-form-item label="字典名称" prop="dictName">
+    <el-form-item label="视频名称" prop="dictName">
       <el-input
-          v-model="queryParams.dictName"
-          placeholder="请输入字典名称"
-          clearable
-          style="width: 240px"
-          @keyup.enter="handleQuery"
-      />
-    </el-form-item>
-    <el-form-item label="字典类型" prop="dictType">
-      <el-input
-          v-model="queryParams.dictType"
-          placeholder="请输入字典类型"
+          v-model="queryParams.videoName"
+          placeholder="模糊搜索"
           clearable
           style="width: 240px"
           @keyup.enter="handleQuery"
@@ -35,11 +26,11 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="创建时间" style="width: 308px">
+    <el-form-item label="视频更新时间" style="width: 308px">
       <el-date-picker
-          v-model="dateRange"
-          value-format="YYYY-MM-DD"
-          type="daterange"
+          v-model="updateDateRange"
+          value-format="YYYY-MM-DD HH:mm:ss"
+          type="datetimerange"
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -64,7 +55,6 @@
           type="success"
           plain
           icon="Edit"
-          :disabled="single"
           @click="handleUpdate"
       >修改</el-button>
     </el-col>
@@ -73,7 +63,6 @@
           type="danger"
           plain
           icon="Delete"
-          :disabled="multiple"
           @click="handleDelete"
       >删除</el-button>
     </el-col>
@@ -85,26 +74,18 @@
           @click="handleExport"
       >导出</el-button>
     </el-col>
-    <el-col :span="1.5">
-      <el-button
-          type="danger"
-          plain
-          icon="Refresh"
-          @click="handleRefreshCache"
-      >刷新缓存</el-button>
-    </el-col>
   </el-row>
 
-  <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
+  <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
     <el-table-column type="selection" width="55" align="center" />
-    <el-table-column label="字典编号" align="center" prop="dictId" />
-    <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true"/>
-    <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
+    <el-table-column label="视频名称" align="center" prop="video_name" />
+    <el-table-column label="视频描述" align="center" prop="video_desc" :show-overflow-tooltip="true"/>
+    <el-table-column label="评分" align="center" prop="video_score" :show-overflow-tooltip="true">
     </el-table-column>
     <el-table-column label="状态" align="center" prop="status">
     </el-table-column>
-    <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-    <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+    <el-table-column label="视频更新时间" align="center" prop="last_update_time"/>
+    <el-table-column label="视频类型" align="center" prop="video_type" width="180">
     </el-table-column>
     <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
     </el-table-column>
@@ -115,43 +96,76 @@
 
 <script setup>
 
-import { reactive, ref} from "vue";
+import { reactive, ref, toRaw} from "vue";
+import { queryVideo } from "@/service/video.js";
 
-const dateRange = ref([]);
+let updateDateRange = ref([]);
 const  sys_normal_disable  = [
     {"value": "10", "label":"正常"},
-    {"value": "20", "label":"异常"}
+    {"value": "100", "label":"异常"}
 ];
+
+const dataList = ref([]);
 const showSearch = ref(true);
-const queryParams= reactive({
-  pageNum: 1,
-      pageSize: 10,
-      dictName: undefined,
-      dictType: undefined,
-      status: undefined
+const loading = ref(false);
+const pageCount = ref(0);
+const pageIndex = ref(0);
+const pageQueryIndex = ref(1);
+const pageQueryNumber = ref(100);
+const queryParams= ref({
+  "videoName": "1",
+  "status": undefined,
+  updateDateRange
 })
 
+function getList(index, number, params) {
+  loading.value = true
+  queryVideo(index, number, params).then(response => {
+    dataList.value = response.data.page_data;
+    pageCount.value = response.data.page_count;
+    pageIndex.value = response.data.page_index;
+    loading.value = false;
+  });
+}
 
 function handleQuery() {
-  queryParams.value.pageNum = 1;
-  getList();
+  let params = [];
+  let queryParamsValue = toRaw(queryParams.value);
+  for(let key of Object.keys(queryParamsValue)){
+    let paramValue = queryParams.value[key]
+    if(!paramValue) continue;
+    console.log(key, paramValue);
+    if(["videoName", "status"].lastIndexOf(key) !== -1){
+      params.push(['=', key, paramValue]);
+    }
+    else if(key === "updateDateRange" && paramValue.length === 2){
+      params.push([
+          "|",
+          [">=", 'last_update_time', paramValue[0]],
+          ["<=", 'last_update_time', paramValue[1]]
+      ]);
+    }
+    console.log(params);
+  }
+  getList(pageQueryIndex.value, pageQueryNumber.value, params)
 }
 
 function handleAdd() {
-  queryParams.value.pageNum = 1;
   getList();
 }
 function handleUpdate() {
-  queryParams.value.pageNum = 1;
   getList();
 }
 function handleDelete() {
-  queryParams.value.pageNum = 1;
   getList();
 }
 function handleExport() {
-  queryParams.value.pageNum = 1;
   getList();
+}
+
+function handleSelectionChange() {
+}
+function resetQuery() {
 }
 </script>
 
